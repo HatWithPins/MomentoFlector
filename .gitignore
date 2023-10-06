@@ -151,6 +151,10 @@ coverage*.info
 *.coverage
 *.coveragexml
 
+# Visual Studio Code
+.vscode
+CMakePresets.json
+
 # NCrunch
 _NCrunch_*
 .*crunch*.local.xml
