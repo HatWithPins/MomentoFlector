@@ -28,24 +28,33 @@ int main(int argc, char** argv)
 		{
 			argument = argv[i];
 			check = argument.find(expectedArgumentsList[i - 1]);
-			if (check < 0)
+			if (check < 0 || check > argument.size())
 			{
-				throw(argument, expectedArgumentsList[i - 1]);
+			    vector<string> exceptionVector = {argument, expectedArgumentsList[i - 1]};
+				throw(exceptionVector);
 			}
 			pos = argument.find("=");
 			receivedArguments.push_back(argument.substr(pos + 1));
 		}
 	}
-	catch (vector<string> error)
+	catch (vector<string> errorVector)
 	{
-		cout << "Error, expected " << error[1] << ", but received " << error[0] << endl;
+		cout << "Error, expected " << errorVector[1] << "something, but received " << errorVector[0] << endl;
 		return -1;
 	}
 
-	boundLeft = stod(receivedArguments[0]);
-	boundRight = stod(receivedArguments[1]);
-	N = stoi(receivedArguments[2]);
-	multithread = stoi(receivedArguments[3]);
+	try
+	{
+		boundLeft = stod(receivedArguments[0]);
+		boundRight = stod(receivedArguments[1]);
+		N = stoi(receivedArguments[2]);
+		multithread = stoi(receivedArguments[3]);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+		return -1;
+	}
 	
 	return 0;
 }
