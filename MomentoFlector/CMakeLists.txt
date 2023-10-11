@@ -3,10 +3,12 @@
 #
 
 # Add source to this project's executable.
-add_executable (MomentoFlector "MomentoFlector.cpp" "MomentoFlector.h")
+file(GLOB MomentoFlector_sources ./**.cpp)
+set(MomentoFlector ${MomentoFlector_sources})
+add_executable (MomentoFlector ${MomentoFlector_sources})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET MomentoFlector PROPERTY CXX_STANDARD 20)
 endif()
 
-# TODO: Add tests and install targets if needed.
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/results)
