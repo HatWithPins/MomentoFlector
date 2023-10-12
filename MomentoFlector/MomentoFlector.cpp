@@ -73,5 +73,20 @@ int main(int argc, char** argv)
 	test.Solve();
 	test.WriteSolution();
 
+	DiferenciasFinitas test2(2*N, boundLeft, boundRight);
+	test2.Solve();
+	test2.WriteSolution();
+
+	DiferenciasFinitas test3(4*N, boundLeft, boundRight);
+	test3.Solve();
+	test3.WriteSolution();
+
+	double* w1 = primeraExtrapolacion(test2.GetSolution(), test.GetSolution(), N + 1);
+	double* w2 = primeraExtrapolacion(test3.GetSolution(), test2.GetSolution(), 2*N + 1);
+	double* w3 = segundaExtrapolacion(w2, w1, N + 1);
+	double* w0 = extrapolacionCero(2.0/N, w2, w3, N + 1);
+
+	writeResults(w1, w2, w3, w0, N);
+
 	return 0;
 }

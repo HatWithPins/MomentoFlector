@@ -10,5 +10,7 @@ double* segundaExtrapolacion(double* v, double* w, int size_w);
 //Estimación del resultado real cuando h->0.
 //Estimation of real result when h->0.
 double* extrapolacionCero(double h, double* v, double* w, int size_w);
-
+//Función para escribir los resultados.
+//Funtion to write results.
+void writeResults(double* w1, double* w2, double* w3, double* w0, int N);
  #endif
