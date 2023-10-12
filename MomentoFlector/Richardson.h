@@ -7,10 +7,4 @@ public:
     ~Richardson();
 };
 
-Richardson::Richardson(/* args */)
-{
-}
 
-Richardson::~Richardson()
-{
-}

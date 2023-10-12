@@ -9,7 +9,7 @@ Disparo::Disparo(int N, double boundLeft, double boundRight)
     _N = N;
     _boundLeft = boundLeft;
     _boundRight = boundRight;
-    h = 2/_N;
+    h = 2.0/_N;
     x = new double[_N];
     w = new double[_N];
 

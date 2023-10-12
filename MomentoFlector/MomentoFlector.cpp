@@ -15,13 +15,16 @@ int main(int argc, char** argv)
 	vector<string> expectedArgumentsList = {"bound_left=", "bound_right=", "N=", "multithread="};
 	vector<string> receivedArguments;
 
+	//Se comprueba el número de parámetros recibidos. 
+	//Checking the number of received parameters.
 	if (argc != expectedArguments)
 	{
 		cout << "Error, expected " << expectedArguments - 1 << ", but received " << argc - 1 << endl;
 		return -1;
 	}
 
-
+	//Se comprueban los nombres de los parámetros.
+	//Checking if parameter names are correct.
 	try 
 	{
 		for (int i = 1; i < argc; i++)
@@ -43,6 +46,8 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
+	//Se castean los parámetros a sus respectivas variables.
+	//Casting parameters to their variables.
 	try
 	{
 		boundLeft = stod(receivedArguments[0]);
@@ -55,6 +60,18 @@ int main(int argc, char** argv)
 		std::cerr << e.what() << '\n';
 		return -1;
 	}
-	
+
+	//La implementación de los métodos requiere que se usen al menos dos. Si N es menor que 2, se devuelve un error.
+	//Implemented methods require at least two points hence, if N is less than 2, code will return an error.
+	if (N < 2) 
+	{
+		cout << "Error, N must be greater or equal to 2, received N " << N << endl;
+		return -1;
+	}
+
+	DiferenciasFinitas test(N, boundLeft, boundRight);
+	test.Solve();
+	test.WriteSolution();
+
 	return 0;
 }
