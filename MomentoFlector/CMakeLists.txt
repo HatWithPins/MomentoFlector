@@ -11,4 +11,5 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET MomentoFlector PROPERTY CXX_STANDARD 20)
 endif()
 
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/results)
+add_custom_target(results ALL
+    COMMAND ${CMAKE_COMMAND} -E make_directory results)

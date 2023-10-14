@@ -2,6 +2,48 @@
 
 using namespace std;
 
+//Función que llama a las clases para hacer los cálculos.
+//Function to instantiate classes and do the calculations.
+int solve(int N, double boundLeft, double boundRight)
+{
+	try
+	{
+		DiferenciasFinitas diferenciasFinitasH(N, boundLeft, boundRight);
+		diferenciasFinitasH.Solve();
+		diferenciasFinitasH.WriteSolution();
+
+		DiferenciasFinitas diferenciasFinitasH2(2 * N, boundLeft, boundRight);
+		diferenciasFinitasH2.Solve();
+		diferenciasFinitasH2.WriteSolution();
+
+		DiferenciasFinitas diferenciasFinitasH4(4 * N, boundLeft, boundRight);
+		diferenciasFinitasH4.Solve();
+		diferenciasFinitasH4.WriteSolution();
+
+		double* w1 = primeraExtrapolacion(diferenciasFinitasH2.GetSolution(), diferenciasFinitasH.GetSolution(), N + 1);
+		double* w2 = primeraExtrapolacion(diferenciasFinitasH4.GetSolution(), diferenciasFinitasH2.GetSolution(), 2 * N + 1);
+		double* w3 = segundaExtrapolacion(w2, w1, N + 1);
+		double* w0 = extrapolacionCero(2.0 / N, w2, w3, N + 1);
+
+		writeResults(w1, w2, w3, w0, N);
+
+		Disparo disparoOrden4(N, boundLeft, boundRight);
+		disparoOrden4.Solve(true);
+		disparoOrden4.WriteSolution(4);
+
+		Disparo disparoOrden2(N, boundLeft, boundRight);
+		disparoOrden2.Solve(false);
+		disparoOrden2.WriteSolution(2);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+		return -1;
+	}
+
+	return 0;
+}
+
 int main(int argc, char** argv)
 {
 	string argument;
@@ -10,9 +52,8 @@ int main(int argc, char** argv)
 	double boundLeft;
 	double boundRight;
 	int N;
-	bool multithread;
-	int expectedArguments = 5;
-	vector<string> expectedArgumentsList = {"bound_left=", "bound_right=", "N=", "multithread="};
+	int expectedArguments = 4;
+	vector<string> expectedArgumentsList = {"bound_left=", "bound_right=", "N="};
 	vector<string> receivedArguments;
 
 	//Se comprueba el número de parámetros recibidos. 
@@ -53,7 +94,6 @@ int main(int argc, char** argv)
 		boundLeft = stod(receivedArguments[0]);
 		boundRight = stod(receivedArguments[1]);
 		N = stoi(receivedArguments[2]);
-		multithread = stoi(receivedArguments[3]);
 	}
 	catch(const std::exception& e)
 	{
@@ -69,24 +109,5 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	DiferenciasFinitas test(N, boundLeft, boundRight);
-	test.Solve();
-	test.WriteSolution();
-
-	DiferenciasFinitas test2(2*N, boundLeft, boundRight);
-	test2.Solve();
-	test2.WriteSolution();
-
-	DiferenciasFinitas test3(4*N, boundLeft, boundRight);
-	test3.Solve();
-	test3.WriteSolution();
-
-	double* w1 = primeraExtrapolacion(test2.GetSolution(), test.GetSolution(), N + 1);
-	double* w2 = primeraExtrapolacion(test3.GetSolution(), test2.GetSolution(), 2*N + 1);
-	double* w3 = segundaExtrapolacion(w2, w1, N + 1);
-	double* w0 = extrapolacionCero(2.0/N, w2, w3, N + 1);
-
-	writeResults(w1, w2, w3, w0, N);
-
-	return 0;
+	return solve(N, boundLeft, boundRight);
 }
