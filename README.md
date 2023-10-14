@@ -28,7 +28,7 @@ Implementation of shooting and finite differences method for solving the unidime
 To build using command line:
 
 `cmake` \
-`cmake --build <carpeta-de-salida> --target MomentoFlector`
+`cmake --build <output-folder> --target MomentoFlector`
 
 In case you use and IDE like Visual Studio, open the folder as a project and build it like any other project. Ensure that your IDE has the extensions for CMake.
 
