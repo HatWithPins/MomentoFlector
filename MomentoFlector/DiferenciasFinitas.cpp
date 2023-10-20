@@ -27,19 +27,19 @@ DiferenciasFinitas::DiferenciasFinitas(int N, double boundLeft, double boundRigh
         x[i] = -1 + i*h;
     }
 
-    a[0] = 2.0 + h*h*(1 + x[1]*x[1]);
+    a[0] = 2.0 - h*h*(1 + x[1]*x[1]);
     d[0] = h*h + _boundLeft;
 
     //Si N = 2, a y d sólo tienen un elemento.
     //If N = 2, a and d only have one element. 
     if (_N > 2)
     {
-        a[_N - 2] = 2.0 + h*h*(1 + x[_N - 1]*x[_N - 1]);
+        a[_N - 2] = 2.0 - h*h*(1 + x[_N - 1]*x[_N - 1]);
         d[_N - 2] = h*h + _boundRight;
 
         for (int i = 1; i < _N - 2; i++)
         {
-            a[i] = 2 + h*h*(1 + x[i + 1]*x[i + 1]);
+            a[i] = 2 - h*h*(1 + x[i + 1]*x[i + 1]);
             d[i] = h*h;
         }
     }

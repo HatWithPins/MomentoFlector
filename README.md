@@ -34,7 +34,7 @@ In case you use and IDE like Visual Studio, open the folder as a project and bui
 
 Once is built, it needs the boundary conditions, number of partitions and if both methods will run on parallel or not.
 
-`MomentoFlector bound_left=0 bound_right=0 N=5`
+`MomentoFlector bound_left=0 bound_right=0 N=5git commit -m "`
 
 If the program doesn't receive the expected arguments or if they have any issue, program will return an error.
 

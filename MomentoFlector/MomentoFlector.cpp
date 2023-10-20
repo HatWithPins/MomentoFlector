@@ -2,9 +2,41 @@
 
 using namespace std;
 
+//Función para generar las tablas en formato LaTeX.
+//Function to generate LaTeX tables.
+void ToLatex(int N, double* x, double* df, double* orden2, double* orden4, double* w)
+{
+	double h = 2.0 / N;
+	ofstream file{ "results/agregados-h-" + to_string(h) + ".txt" };
+
+	file << "\\begin{table}[!h]\n";
+	file << "\\centering\n";
+	file << "\\begin{tabular}{||cccccccc||}\n";
+	file << "\\hline\n";
+	file << "$\\xi_{i}$& DF & $\\Delta w_{i}$ & Disparo orden 2 & $\\Delta w_{i}$ & Disparo orden 4 & $\\Delta w_{i}$ & $w_{0}$\\\\\n";
+	file << "\\hline\\hline\n";
+
+	for (int i = 0; i < N + 1; i++)
+	{
+		file << to_string(x[i]);
+		file << "&" + to_string(df[i]) + "&" + to_string(abs(df[i] - w[i]));
+		file << "&" + to_string(orden2[i]) + "&" + to_string(abs(orden2[i] - w[i]));
+		file << "&" + to_string(orden4[i]) + "&" + to_string(abs(orden4[i] - w[i]));
+		file << "&" + to_string(w[i]) + "\\\\\n";
+		file << "\\hline\\hline\n";
+
+	}
+
+	file << "\\end{tabular}\n";
+	file << "\\caption{Resultados num\\'ericos para $h=" + to_string(h) + "$}\n";
+	file << "\\label{tab:combinado}\n";
+	file << "\\end{table}\n";
+
+	file.close();
+}
 //Función que llama a las clases para hacer los cálculos.
 //Function to instantiate classes and do the calculations.
-int solve(int N, double boundLeft, double boundRight)
+int Solve(int N, double boundLeft, double boundRight)
 {
 	try
 	{
@@ -34,6 +66,8 @@ int solve(int N, double boundLeft, double boundRight)
 		Disparo disparoOrden2(N, boundLeft, boundRight);
 		disparoOrden2.Solve(false);
 		disparoOrden2.WriteSolution(2);
+
+		ToLatex(N, diferenciasFinitasH.GetX(), diferenciasFinitasH.GetSolution(), disparoOrden2.GetSolution(), disparoOrden4.GetSolution(), w0);
 	}
 	catch (const std::exception& e)
 	{
@@ -109,5 +143,5 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	return solve(N, boundLeft, boundRight);
+	return Solve(N, boundLeft, boundRight);
 }
