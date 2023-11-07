@@ -48,11 +48,13 @@ double* Disparo::RungeKutta(bool isSolvingY1, bool isOrder4)
     {
         k[0] = h*u_2[i];
         k[1] = h*(-(1 + x[i]*x[i])*u_1[i] - isSolvingY1);
-        for (int j = 2; j < 7; j += 2)
+        for (int j = 2; j < 5; j += 2)
         {
             k[j] = h * (u_2[i] + 0.5 * k[ j - 1]);
-            k[j + 1] = h * (-(1 + (x[i] + h / 2) * (x[i] + h / 2)) * (u_1[i] + 0.5 * k[j - 2]) - isSolvingY1);
+            k[j + 1] = h * (-(1 + (x[i] + h / 2.0) * (x[i] + h / 2.0)) * (u_1[i] + 0.5 * k[j - 2]) - isSolvingY1);
         }
+        k[6] = h * (u_2[i]+k[5]);
+        k[7] = h * (-(1 + (x[i] + h) * (x[i] + h)) * (u_1[i] + k[4]) - isSolvingY1);
 
         //Dependiendo del orden de aproximación, suma unos términos u otros.
         //Depending on the order, it adds the needed terms.
